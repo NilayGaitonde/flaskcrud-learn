@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Page {{ pagination.page }}</h2>
+    <div class="pagination">
+        {% if pagination.has_prev %}
+            <span>
+                <a class='page-number' href="{{ url_for('like_filter', page=pagination.prev_num) }}">
+                    {{ '<<<' }}
+                </a>
+            </span>
+        {% endif %}
+    
+        {% for number in pagination.iter_pages() %}
+            {% if pagination.page != number %}
+                <span>
+                        <a class='page-number'
+                            href="{{ url_for('like_filter', page=number) }}">
+                        {{ number }}
+                        </a>
+                </span>
+            {% else %}
+                <span class='current-page-number'>{{ number }}</span>
+            {% endif %}
+        {% endfor %}
+    
+        {% if pagination.has_next %}
+            <span>
+                <a class='page-number'
+                    href="{{ url_for('like_filter', page=pagination.next_num) }}">
+                    {{ '>>>' }}
+                </a>
+            </span>
+        {% endif %}
+    </div>
+    <label for="CampaignName">Campaign Name</label>
+    <select id="campaign-name">
+        <option value="Au Bank">Au Bank</option>
+        <option value="Option 2">Option 2</option>
+        <option value="Option 3">Option 3</option>
+    </select>
+    <label for="run on">Run on</label>
+    <select id="run-on">
+        <option value="Au Bank">04-02-2023</option>
+        <option value="Option 2">10-02-2023</option>
+        <option value="Option 3">19-02-2023</option>
+    </select>
+    <br>
+    <form action="{{url_for('like_filter')}}" method="post">
+        <label>Filter further</label>
+        <select id="filter" name="filter">
+            {% for column in columns %}
+            <option value="{{column['name']}}">{{column['name']}}</option>
+        {% endfor %}
+        </select>
+        <label>Like</label>
+        <input type="text" id="like" placeholder="Enter value" name="like">
+        <button type="submit">Filter</button>
+    </form>
+    <br>
+    <table>
+        {% for column in columns %}
+            <th>{{column['name']}}</th>
+        {% endfor %}
+        {% for post in pagination.items %}
+            <tr>
+                <td>{{ post.Name }}</td>
+                <td>{{ post.Mobile }}</td> 
+                <td>{{ post.Email_Id }}</td>
+                <td>{{ post.City }}</td>
+                <td>{{ post.Adress }}</td>
+                <td>{{ post.State }}</td>
+                <td>{{ post.Pincode }}</td>
+                <td>{{ post.DOB }}</td>
+                <td>{{ post.Pan_Id }}</td>
+                <td>{{ post.Annual_Income }}</td>
+                <td>{{ post.Payment_Bank }}</td>
+                <td>{{ post.Payment_Mode }}</td>
+                <td>{{ post.Type_of_Acc }}</td>
+                <td>{{ post.District }}</td>
+                <td>{{ post.Locality }}</td>
+                <td>{{ post.Sum_Insured }}</td>
+                <td>{{ post.Plan_Type }}</td>
+                <td>{{ post.Proof_Id }}</td>
+                <td>{{ post.Proff2 }}</td>
+                <td>{{ post.Locality_1 }}</td>
+                <td>{{ post.id }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+</body>
+</html>
